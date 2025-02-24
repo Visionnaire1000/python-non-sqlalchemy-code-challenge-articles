@@ -203,6 +203,68 @@ class TestMagazine:
         assert all(isinstance(author, Author) for author in magazine_1.contributing_authors())
         assert magazine_2.contributing_authors() is None
 
+        
+
+
+def test_article_title_is_immutable_string():
+    author = Author("Carry Bradshaw")
+    magazine = Magazine("Vogue", "Fashion")
+    article = Article(author, magazine, "How to wear a tutu with style")
+
+    assert isinstance(article.title, str)
+
+    with pytest.raises(AttributeError):
+        article.title = "New Title"
+
+
+def test_author_name_is_immutable_string():
+    author = Author("Carry Bradshaw")
+
+    assert isinstance(author.name, str)
+
+    with pytest.raises(AttributeError):
+        author.name = "ActuallyTopher"
+
+
+def test_magazine_name_is_mutable_string():
+    magazine = Magazine("Vogue", "Fashion")
+
+    assert isinstance(magazine.name, str)
+
+    magazine.name = "New Yorker"
+    assert magazine.name == "New Yorker"
+
+
+def test_magazine_name_length():
+    magazine = Magazine("Vogue", "Fashion")
+
+    assert 2 <= len(magazine.name) <= 16
+
+    with pytest.raises(ValueError):
+        magazine.name = "New Yorker Plus X"  # Exceeds 16 characters
+
+
+def test_magazine_category_is_mutable_string():
+    magazine = Magazine("Vogue", "Fashion")
+
+    assert isinstance(magazine.category, str)
+
+    magazine.category = "Lifestyle"
+    assert magazine.category == "Lifestyle"
+
+    with pytest.raises(ValueError):
+        magazine.category = 2  # Invalid type
+
+
+def test_magazine_category_length():
+    magazine = Magazine("Vogue", "Fashion")
+
+    assert magazine.category != ""
+
+    with pytest.raises(ValueError):
+        magazine.category = ""  # Should raise ValueError for empty string
+
+
     # def test_top_publisher(self):
     #     """returns the magazine with the most articles"""
     #     Magazine.all = []

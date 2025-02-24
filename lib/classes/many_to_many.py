@@ -1,7 +1,7 @@
 class Author:
     def __init__(self, name):
         if not isinstance(name, str) or len(name) == 0:
-            raise ValueError("Name must be a string.")
+            raise ValueError("Name must be a non-empty string.")
         self._name = name
 
     @property
@@ -33,8 +33,8 @@ class Magazine:
 
     @name.setter
     def name(self, value):
-        if not isinstance(value, str):
-            raise ValueError("Name must be a string")
+        if not isinstance(value, str) or not (2 <= len(value) <= 16):
+            raise ValueError("Name must be a string between 2 and 16 characters.")
         self._name = value
 
     @property
@@ -44,7 +44,7 @@ class Magazine:
     @category.setter
     def category(self, value):
         if not isinstance(value, str) or len(value) == 0:
-            raise ValueError("Category must be a string.")
+            raise ValueError("Category must be a non-empty string.")
         self._category = value
 
     def articles(self):
@@ -72,12 +72,13 @@ class Article:
             raise ValueError("Author must be an instance of Author.")
         if not isinstance(magazine, Magazine):
             raise ValueError("Magazine must be an instance of Magazine.")
-        if not isinstance(title, str):
-            raise ValueError("Title must be a string.")
+        if not isinstance(title, str) or not (5 <= len(title) <= 50):
+            raise ValueError("Title must be a string between 5 and 50 characters.")
 
         self.author = author
         self.magazine = magazine
         self._title = title
+
         Article.all.append(self)
 
     @property
